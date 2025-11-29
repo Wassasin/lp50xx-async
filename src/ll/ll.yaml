@@ -1,0 +1,50 @@
+# Base low-level register definition.
+# Bank, led and out registers not defined as this differs per IC.
+
+config:
+  default_byte_order: LE
+  buffer_address_type: u8
+  register_address_type: u8
+  defmt_feature: "defmt-03"
+
+device_config0:
+  type: register
+  address: 0x00
+  access: RW
+  size_bits: 8
+  fields:
+    chip_en:
+      base: bool
+      start: 6
+
+device_config1:
+  type: register
+  address: 0x01
+  access: RW
+  size_bits: 8
+  reset_value: 0x3C
+  fields:
+    led_global_off:
+      base: bool
+      start: 0
+    max_current_option:
+      base: uint
+      start: 1
+      end: 2
+      description: Output maximum current
+      conversion:
+        name: max_current_option
+        current_25mA5: ~
+        current_35mA: ~
+    pwm_dithering_en:
+      base: bool
+      start: 2
+    auto_incr_en:
+      base: bool
+      start: 3
+    power_save_en:
+      base: bool
+      start: 4
+    log_scale_en:
+      base: bool
+      start: 5

@@ -1,0 +1,82 @@
+use device_driver::AsyncRegisterInterface;
+use embedded_hal_async::i2c::I2c;
+
+// Max write size is for LP5036,
+// where for 12 LEDs the brightness can be configured at once.
+const MAX_WRITE_SIZE: usize = 13;
+
+use crate::ll::DeviceError;
+
+pub struct DeviceInterface<I2C: I2c> {
+    i2c: I2C,
+    address: u8,
+}
+
+impl<I2C: I2c> DeviceInterface<I2C> {
+    /// Construct a new instance of the device.
+    ///
+    /// I2C max frequency 400kHz.
+    pub const fn new(i2c: I2C, address: u8) -> Self {
+        Self { i2c, address }
+    }
+}
+
+impl<I2C: I2c> device_driver::AsyncRegisterInterface for DeviceInterface<I2C> {
+    type Error = DeviceError<I2C::Error>;
+
+    type AddressType = u8;
+
+    async fn write_register(
+        &mut self,
+        address: Self::AddressType,
+        _size_bits: u32,
+        data: &[u8],
+    ) -> Result<(), Self::Error> {
+        let mut vec = heapless::Vec::<u8, MAX_WRITE_SIZE>::new();
+        vec.push(address).map_err(|_| DeviceError::BufferTooSmall)?;
+        vec.extend_from_slice(data)
+            .map_err(|_| DeviceError::BufferTooSmall)?;
+        Ok(self.i2c.write(self.address, &vec).await?)
+    }
+
+    async fn read_register(
+        &mut self,
+        address: Self::AddressType,
+        _size_bits: u32,
+        data: &mut [u8],
+    ) -> Result<(), Self::Error> {
+        Ok(self.i2c.write_read(self.address, &[address], data).await?)
+    }
+}
+
+impl<I2C: I2c> device_driver::BufferInterfaceError for DeviceInterface<I2C> {
+    type Error = DeviceError<I2C::Error>;
+}
+
+impl<I2C: I2c> device_driver::AsyncBufferInterface for DeviceInterface<I2C> {
+    type AddressType = u8;
+
+    async fn write(
+        &mut self,
+        address: Self::AddressType,
+        buf: &[u8],
+    ) -> Result<usize, Self::Error> {
+        self.write_register(address, buf.len() as u32, buf).await?;
+        Ok(buf.len())
+    }
+
+    async fn flush(&mut self, address: Self::AddressType) -> Result<(), Self::Error> {
+        // No-op
+        let _ = address;
+        Ok(())
+    }
+
+    #[allow(unused)]
+    async fn read(
+        &mut self,
+        address: Self::AddressType,
+        buf: &mut [u8],
+    ) -> Result<usize, Self::Error> {
+        unimplemented!()
+    }
+}
