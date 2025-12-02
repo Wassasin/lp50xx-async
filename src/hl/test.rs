@@ -5,7 +5,7 @@ use crate::{
     ll,
 };
 
-const ADDRESS: u8 = 0b0110_0010;
+const ADDRESS: u8 = 0b0110_001;
 
 fn regw(register: u8, values: &[u8]) -> Transaction {
     let mut expected = vec![register];

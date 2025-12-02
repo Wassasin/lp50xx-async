@@ -2,7 +2,7 @@ use embedded_hal_mock::eh1::i2c::{Mock, Transaction};
 
 use crate::ll;
 
-const ADDRESS: u8 = 0b0110_0000;
+const ADDRESS: u8 = 0b0110_000;
 
 fn regw(register: u8, values: &[u8]) -> Transaction {
     let mut expected = vec![register];

@@ -137,9 +137,9 @@ impl<VARIANT: LP50xx, T: I2c> Driver<VARIANT, T, marker::Standby> {
     fn new(interface: T, address: Address) -> Self {
         let address = match address {
             Address::Address0 => VARIANT::I2C_ADDRESS_BASE,
-            Address::Address1 => VARIANT::I2C_ADDRESS_BASE | 0b010,
-            Address::Address2 => VARIANT::I2C_ADDRESS_BASE | 0b100,
-            Address::Address3 => VARIANT::I2C_ADDRESS_BASE | 0b110,
+            Address::Address1 => VARIANT::I2C_ADDRESS_BASE | 0b01,
+            Address::Address2 => VARIANT::I2C_ADDRESS_BASE | 0b10,
+            Address::Address3 => VARIANT::I2C_ADDRESS_BASE | 0b11,
             Address::Broadcast => VARIANT::I2C_ADDRESS_BROADCAST,
         };
 
@@ -303,45 +303,45 @@ pub struct LP5036;
 
 impl LP50xx for LP5009 {
     const LED_COUNT: u8 = 9;
-    const I2C_ADDRESS_BASE: u8 = 0b0110_0000;
-    const I2C_ADDRESS_BROADCAST: u8 = 0b0011_1000;
+    const I2C_ADDRESS_BASE: u8 = 0b0110_000;
+    const I2C_ADDRESS_BROADCAST: u8 = 0b0011_100;
     const LED_START_ADDRESS: u8 = 0x07;
     const OUT_START_ADDRESS: u8 = 0x0b;
 }
 
 impl LP50xx for LP5012 {
     const LED_COUNT: u8 = 12;
-    const I2C_ADDRESS_BASE: u8 = 0b0110_0000;
-    const I2C_ADDRESS_BROADCAST: u8 = 0b0011_1000;
+    const I2C_ADDRESS_BASE: u8 = 0b0110_000;
+    const I2C_ADDRESS_BROADCAST: u8 = 0b0011_100;
     const LED_START_ADDRESS: u8 = 0x07;
 }
 
 impl LP50xx for LP5018 {
     const LED_COUNT: u8 = 18;
-    const I2C_ADDRESS_BASE: u8 = 0b0101_0000;
-    const I2C_ADDRESS_BROADCAST: u8 = 0b0111_1000;
+    const I2C_ADDRESS_BASE: u8 = 0b0101_000;
+    const I2C_ADDRESS_BROADCAST: u8 = 0b0111_100;
     const LED_START_ADDRESS: u8 = 0x07;
     const OUT_START_ADDRESS: u8 = 0x0f;
 }
 
 impl LP50xx for LP5024 {
     const LED_COUNT: u8 = 24;
-    const I2C_ADDRESS_BASE: u8 = 0b0101_0000;
-    const I2C_ADDRESS_BROADCAST: u8 = 0b0111_1000;
+    const I2C_ADDRESS_BASE: u8 = 0b0101_000;
+    const I2C_ADDRESS_BROADCAST: u8 = 0b0111_100;
     const LED_START_ADDRESS: u8 = 0x07;
 }
 
 impl LP50xx for LP5030 {
     const LED_COUNT: u8 = 30;
-    const I2C_ADDRESS_BASE: u8 = 0b0110_0000;
-    const I2C_ADDRESS_BROADCAST: u8 = 0b0011_1000;
+    const I2C_ADDRESS_BASE: u8 = 0b0110_000;
+    const I2C_ADDRESS_BROADCAST: u8 = 0b0011_100;
     const LED_START_ADDRESS: u8 = 0x08;
     const OUT_START_ADDRESS: u8 = 0x14;
 }
 
 impl LP50xx for LP5036 {
     const LED_COUNT: u8 = 36;
-    const I2C_ADDRESS_BASE: u8 = 0b0110_0000;
-    const I2C_ADDRESS_BROADCAST: u8 = 0b0011_1000;
+    const I2C_ADDRESS_BASE: u8 = 0b0110_000;
+    const I2C_ADDRESS_BROADCAST: u8 = 0b0011_100;
     const LED_START_ADDRESS: u8 = 0x08;
 }
