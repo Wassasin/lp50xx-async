@@ -7,6 +7,8 @@ use embedded_hal_async::i2c::I2c;
 
 use crate::ll::{self, DeviceError};
 
+pub use crate::ll::MaxCurrentOption;
+
 /// I2C address used to address the device.
 #[derive(Debug, Default, Clone, Copy)]
 pub enum Address {
