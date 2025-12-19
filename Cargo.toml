@@ -2,6 +2,17 @@
 name = "lp50xx-async"
 version = "0.1.0"
 edition = "2021"
+license = "MIT OR Apache-2.0"
+rust-version = "1.87"
+
+authors = ["Wouter Geraedts <git@woutergeraedts.nl>"]
+categories = ["embedded", "hardware-support", "no-std::no-alloc", "no-std"]
+keywords = ["driver", "rgb", "led"]
+description = "Async Rust driver for the lp50xx family of Texas Instruments I2C RGB LED drivers"
+
+documentation = "https://docs.rs/lp50xx-async"
+repository = "https://github.com/Wassasin/lp50xx-async"
+readme = "README.md"
 
 [dependencies]
 device-driver = "1.0"
@@ -15,4 +26,4 @@ defmt-03 = ["dep:defmt", "device-driver/defmt-03"]
 
 [dev-dependencies]
 embedded-hal-mock = { version = "0.11", features = ["embedded-hal-async"] }
-async-std = { version = "1.13", features = ["attributes"]}
+async-std = { version = "1.13", features = ["attributes"] }
